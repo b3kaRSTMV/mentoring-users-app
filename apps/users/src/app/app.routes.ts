@@ -1,9 +1,10 @@
-import { TasksContainerComponent } from './../../../../libs/users/task/src/lib/tasks-view-container/tasks-view-container.component';
+
 import { Route } from '@angular/router';
 import { authGuard, adminGuard } from '@auth/data-access';
 import { AuthorizedUserLayoutComponent } from './authorized-user-layout/authorized-user-layout.component';
 import { UnauthorizedUserLayoutComponent } from './unauthorized-user-layout-component/unauthorized-user-layout-component.component';
 import { canDeactivateFormComponent } from '@users/core/utils';
+
 
 const layoutAgnosticComponents = [
   {
@@ -47,10 +48,22 @@ export const appRoutes: Route[] = [
           import('@users/users/articles/articles-create').then((c) => c.ArticlesCreateContainerComponent),
         canDeactivate: [canDeactivateFormComponent],
       },
+{
+  path: 'materials',
+  loadComponent: () => import('@users/materials').then((m) => m.FolderListComponent),
+},
+// {
+//   path: 'folders/:id', 
+//   component: FolderDetailsComponent,
+// },
       {
-        path: 'materials',
-        loadComponent: () => import('@users/materials').then((c) => c.UsersMaterialsComponent),
+        path: 'materials/:id',
+        loadComponent: () =>
+          import('@users/materials/data-access').then((c) => c.FolderDetailComponent), // <-- создашь его
       },
+
+
+
       {
         path: 'articles',
         loadComponent: () => import('@users/users/articles/articles').then((c) => c.ArticlesViewContainerComponent),

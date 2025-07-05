@@ -1,1 +1,14 @@
-<p>users-materials works!</p>
+<h1>material</h1>
+ @if (loading$ | async) {
+      <mat-spinner />
+    } @else {
+      <button mat-button (click)="openCreateDialog()">
+        <mat-icon>add</mat-icon> Новая папка
+      </button>
+
+      @for (folder of folders$ | async; track folder.id) {
+        <mat-card (click)="openFolder(folder.id)">
+          {{ folder.title }}
+        </mat-card>
+      }
+    }

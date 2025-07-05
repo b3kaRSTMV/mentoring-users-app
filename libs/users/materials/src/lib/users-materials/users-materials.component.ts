@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+// import { MaterialsApiService, Folder } from '../../../data-access/materials-api.service';
+
 
 @Component({
   selector: 'users-users-materials',
@@ -9,4 +11,6 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./users-materials.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsersMaterialsComponent {}
+export class UsersMaterialsComponent {
+                         
+}

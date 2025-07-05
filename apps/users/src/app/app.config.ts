@@ -8,6 +8,8 @@ import { API_URL } from '@users/core/http';
 import { environment } from '../environments/environment.development';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {MaterialsEffects} from '../../../../libs/users/materials/data-access/src/lib/+state/materials/materials.effects'
 import { USERS_FEATURE_KEY, usersReducer, userEffects } from '@users/users/data-access';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
@@ -20,7 +22,12 @@ import { articlesEffects, articlesFeature, commentsEffects, commentsFeature } fr
 import { tasksEffects, tasksFeature } from '@users/users/task/data-access';
 import { CLIENT_ID, githubApiEffects, githubApiFeature } from '@users/core/github-api/data-access';
 import { backlogFeature, backlogEffects } from '@users/users/backlog/data-access';
-
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {foldersReducer} from '../../../../libs/users/materials/data-access/src/lib/+state/folders/folders.reducer'
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {FoldersEffect} from '../../../../libs/users/materials/data-access/src/lib/+state/folders/folders.effects'
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { materialsReducer } from 'libs/users/materials/data-access/src/lib/+state/materials/materials.reducer';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -35,7 +42,9 @@ export const appConfig: ApplicationConfig = {
       commentsEffects,
       githubApiEffects,
       backlogEffects,
-      SettingsEffects
+      SettingsEffects,
+      FoldersEffect,
+      MaterialsEffects
     ),
     provideStore({
       router: routerReducer,
@@ -47,6 +56,8 @@ export const appConfig: ApplicationConfig = {
       [tasksFeature.name]: tasksFeature.reducer,
       [githubApiFeature.name]: githubApiFeature.reducer,
       [backlogFeature.name]: backlogFeature.reducer,
+      folders: foldersReducer,
+      materials: materialsReducer,
     }),
     provideRouterStore(),
     provideStoreDevtools({

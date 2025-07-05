@@ -1,0 +1,39 @@
+.folders-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px;
+}
+
+.folder-card {
+  width: 200px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+  text-align: center;
+
+  &:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.folder-icon {
+  font-size: 48px;
+  color: #3f51b5;
+}
+
+.folder-title {
+  margin-top: 8px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
