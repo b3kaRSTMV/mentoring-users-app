@@ -25,7 +25,7 @@ loadMaterials$ = createEffect(() =>
           const normalizedMaterials: Material[] = materialsFromApi.map(m => ({
             id: m.id,
             title: m.title,
-            url: m.material_linkk,
+            url: m.material_link,
             folderId: m.folder_id,
             createdAt: m.createdAt,
           

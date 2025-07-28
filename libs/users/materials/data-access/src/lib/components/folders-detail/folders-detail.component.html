@@ -1,13 +1,16 @@
- <ng-template #loading>Загрузка...</ng-template>
-    <ng-template #empty>Материалы не найдены</ng-template>
+<ng-template #loading>Загрузка...</ng-template>
+<ng-template #empty>Материалы не найдены</ng-template>
 <div>FOLDER DETAIL</div>
-    <div *ngIf="materials$ | async as materials; else loading">
-      <div *ngIf="materials.length > 0; else empty">
-        <ul>
-          <li *ngFor="let material of materials">
-           {{material.title}} <br> <br>
-           {{material.url}}
-          </li>
-        </ul>
-      </div>
-    </div>
+<div *ngIf="materials$ | async as materials; else loading">
+  <div *ngIf="materials.length > 0; else empty">
+    <ul>
+      <li *ngFor="let material of materials">
+        <a [href]="material.url" target="_blank" rel="noopener noreferrer">
+          {{ material.title }}
+        </a>
+        {{ material.url }}
+        {{ material.createdAt | date : 'dd MMM yyyy' }}
+      </li>
+    </ul>
+  </div>
+</div>

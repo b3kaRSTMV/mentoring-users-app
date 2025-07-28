@@ -5,7 +5,7 @@ import { Material } from './src/lib/+state/materials/material.model';
 export interface MaterialApi {
   id: number;
   title: string;
-  material_linkk: string;
+  material_link: string;
   folder_id: number;
   createdAt?: string;
   

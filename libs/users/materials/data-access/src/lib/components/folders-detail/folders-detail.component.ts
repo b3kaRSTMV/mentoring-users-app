@@ -4,6 +4,7 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
+import { NgSwitch,NgSwitchCase } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe, NgIf, NgForOf } from '@angular/common';

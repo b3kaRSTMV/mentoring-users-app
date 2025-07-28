@@ -27,7 +27,7 @@ export const selectMaterialsByFolderId = (folderId: number) =>
     (materials) => materials.filter(m => m.folderId === folderId)
   );
 
-// Селекторы по типу материала
+
 // export const selectMaterialsByType = (type: string) =>
 //   createSelector(
 //     selectAllMaterials,
