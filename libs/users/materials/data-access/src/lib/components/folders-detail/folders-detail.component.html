@@ -1,55 +1,16 @@
-<!-- folders-detail.component.html -->
-
+<ng-template #loading>Загрузка...</ng-template>
+<ng-template #empty>Материалы не найдены</ng-template>
 <div>FOLDER DETAIL</div>
-
-<!-- список материалов как у тебя -->
 <div *ngIf="materials$ | async as materials; else loading">
   <div *ngIf="materials.length > 0; else empty">
     <ul>
       <li *ngFor="let material of materials">
-        {{ material.title }} <br />
+        <a [href]="material.url" target="_blank" rel="noopener noreferrer">
+          {{ material.title }}
+        </a>
         {{ material.url }}
+        {{ material.createdAt | date : 'dd MMM yyyy' }}
       </li>
     </ul>
-  </div>
-</div>
-<ng-template #loading>Загрузка...</ng-template>
-<ng-template #empty>Материалы не найдены</ng-template>
-
-<!-- КНОПКА «Добавить» -->
-<div style="margin-top:16px">
-  <button mat-raised-button color="primary" (click)="toggleAdd()">
-    {{ addOpen ? 'Скрыть форму' : 'Добавить' }}
-  </button>
-</div>
-
-<!-- ФОРМА (показываем по клику) -->
-<div *ngIf="addOpen" style="margin-top:12px; max-width:520px;">
-  <mat-form-field appearance="outline" class="w-full" style="width:100%;">
-    <mat-label>Тип</mat-label>
-    <mat-select [(ngModel)]="form.type" name="type">
-      <mat-option value="video">Видео</mat-option>
-      <mat-option value="pdf">Файл PDF</mat-option>
-      <mat-option value="audio">Подкаст</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" style="width:100%; display:block; margin-top:8px;">
-    <mat-label>Заголовок</mat-label>
-    <input matInput [(ngModel)]="form.title" name="title" autocomplete="off" />
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" style="width:100%; display:block; margin-top:8px;">
-    <mat-label>Ссылка (YouTube / PDF / Audio)</mat-label>
-    <input matInput [(ngModel)]="form.url" name="url" placeholder="https://..." />
-  </mat-form-field>
-
-  <div style="margin-top:12px; display:flex; gap:8px;">
-    <button mat-stroked-button (click)="toggleAdd()">Отмена</button>
-    <button mat-flat-button color="primary"
-            [disabled]="!form.title.trim() || !form.url.trim()"
-            (click)="saveMaterial()">
-      Сохранить
-    </button>
   </div>
 </div>

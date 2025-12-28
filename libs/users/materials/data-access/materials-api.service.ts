@@ -26,8 +26,8 @@ function apiToMaterial(m: MaterialApi): Material {
     id: m.id,
     title: m.title,
     url: m.material_link ?? m.material_linkk ?? m.url ?? '', // ← фолбэки
-    folderId: m.folder_id ?? m.folder_id,
-    createdAt: m.created_at ?? m.created_at ?? null,
+    folderId: m.folder_id,
+    createdAt: m.created_at ?? null,
   };
 }
 

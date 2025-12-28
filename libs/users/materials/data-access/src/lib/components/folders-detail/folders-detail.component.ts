@@ -1,16 +1,18 @@
-// folders-detail.component.ts
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
-import { Material } from '../../+state/materials/material.model';
+
+import { NgSwitch,NgSwitchCase } from '@angular/common';
+import { Store } from '@ngrx/store';
 import { MaterialsActions } from '../../+state/materials/materials.actions';
 import { selectAllMaterials, selectMaterialsLoading } from '../../+state/materials/materials.selectors';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { AsyncPipe, CommonModule, NgForOf, NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { Material } from '../../+state/materials/material.model';
+import { MatOptionModule } from '@angular/material/core';
+
 // ...
 
 @Component({
@@ -19,7 +21,9 @@ import { Component, inject, OnInit } from '@angular/core';
   standalone: true,
   imports: [
     CommonModule, AsyncPipe, NgIf, NgForOf,
-    FormsModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule
+    FormsModule, MatButtonModule, MatFormFieldModule, MatInputModule,
+    MatOptionModule,
+
 ],
   templateUrl: './folders-detail.component.html',
   styleUrls: ['./folders-detail.component.scss'],

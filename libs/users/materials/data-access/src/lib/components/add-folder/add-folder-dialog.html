@@ -1,0 +1,12 @@
+    <h2 mat-dialog-title>Новая папка</h2>
+    <mat-dialog-content>
+      <mat-form-field appearance="fill">
+        <mat-label>Название папки</mat-label>
+        <input matInput [formControl]="folderNameControl" />
+        <mat-error *ngIf="folderNameControl.invalid">Название обязательно</mat-error>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="cancel()">Отмена</button>
+      <button mat-flat-button color="primary" (click)="create()" [disabled]="folderNameControl.invalid">Создать</button>
+    </mat-dialog-actions>

@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CreateFolderComponent } from '../create-folder/create-folder.component';
+import { AddFolderDialogComponent } from '../add-folder/add-folder-dialog';
 import { MatDialog } from '@angular/material/dialog';
 
 
@@ -26,7 +26,8 @@ import { MatDialog } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FolderListComponent {
-constructor(private store: Store, private router: Router, private dialog: MatDialog) {}
+
+constructor(private store: Store, private router: Router, private dialog:MatDialog ) {}
 
 ngOnInit(): void {
   this.store.dispatch(loadFolders());
@@ -34,17 +35,14 @@ ngOnInit(): void {
  openFolder(id: number) {
     this.router.navigate(['/materials', id]);
   }
-  openCreateDialog(): void {
-  this.dialog.open(CreateFolderComponent).afterClosed().subscribe((folderName: string) => {
+ openAddFolderDialog() {
+  this.dialog.open(AddFolderDialogComponent).afterClosed().subscribe((folderName: string) => {
     if (folderName) {
       this.store.dispatch(createFolder({ title: folderName }));
+      console.log('Создана папка с именем:', folderName);
     }
   });
-  }
+}
 folders$ = this.store.select(selectAllFolders);
 loading$ = this.store.select(selectFoldersLoading);
-
-
-
-
 }

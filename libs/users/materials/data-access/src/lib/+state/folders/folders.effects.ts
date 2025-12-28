@@ -4,38 +4,35 @@ import { FoldersApiService } from './folders.api.service';
 import * as FoldersActions from './folders.action';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 
-
-
 @Injectable()
 export class FoldersEffect {
   loadFolders$ = createEffect(() => {
-  const actions$ = inject(Actions); //получили доступ ко всем action
-  const api = inject(FoldersApiService); // получили доступ к api
+    const actions$ = inject(Actions); //получили доступ ко всем action
+    const api = inject(FoldersApiService); // получили доступ к api
 
-  return actions$.pipe(
-    ofType(FoldersActions.loadFolders),
-    mergeMap(() => //ассинхронный запрос
-      api.getFolders().pipe(
-        tap(console.log),
-        map(folders => FoldersActions.loadFoldersSuccess({ folders})), // получаем массив данных folders и с помощью мапа преобразуем в экшн
-        catchError(error => of(FoldersActions.loadFoldersFailure({ error: error.message })))
+    return actions$.pipe(
+      ofType(FoldersActions.loadFolders),
+      mergeMap(() =>
+        //ассинхронный запрос
+        api.getFolders().pipe(
+          map((folders) => FoldersActions.loadFoldersSuccess({ folders })), // получаем массив данных folders и с помощью мапа преобразуем в экшн
+          catchError((error) => of(FoldersActions.loadFoldersFailure({ error: error.message })))
+        )
       )
-    ),
-  );
-});
-createFolders$ = createEffect(() => {
-  const actions$ = inject(Actions);
-  const api = inject(FoldersApiService);
+    );
+  });
+  createFolders$ = createEffect(() => {
+    const actions$ = inject(Actions);
+    const api = inject(FoldersApiService);
 
-  return actions$.pipe(
-    ofType(FoldersActions.createFolder),
-    mergeMap((actions$) =>
-   api.createFolder(actions$.title).pipe(
-          map(folder => FoldersActions.createFolderSuccess({ folder })),
-          catchError(error => of(FoldersActions.createFolderFailure({ error: error.message })))
-    )));
-});
-
+    return actions$.pipe(
+      ofType(FoldersActions.createFolder),
+      mergeMap((actions$) =>
+        api.createFolder(actions$.title).pipe(
+          map((folder) => FoldersActions.createFolderSuccess({ folder })),
+          catchError((error) => of(FoldersActions.createFolderFailure({ error: error.message })))
+        )
+      )
+    );
+  });
 }
-
-

@@ -12,7 +12,6 @@ export class FoldersApiService {
     return this.http.get<Folder[]>(API_URL);
   }
     createFolder(title: string): Observable<Folder> {
-    return this.http.post<Folder>(`https://x8ki-letl-twmt.n7.xano.io/api:RaqAbOVN/folder`, { title });
-  }
-  
+   return this.http.post<Folder>(`https://x8ki-letl-twmt.n7.xano.io/api:RaqAbOVN/folder`, { title });
+  } 
 }

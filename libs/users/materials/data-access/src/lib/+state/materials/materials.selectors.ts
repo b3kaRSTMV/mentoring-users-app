@@ -19,7 +19,15 @@ export const selectMaterialsError = createSelector(
   (state) => state.error
 );
 
-// export const selectMaterialsByFolderId = (folderId: number) => 
+// Селекторы для конкретной папки
+export const selectMaterialsByFolderId = (folderId: number) => 
+  createSelector(
+    selectAllMaterials,
+    (materials) => materials.filter(m => m.folderId === folderId)
+  );
+
+
+// export const selectMaterialsByType = (type: string) =>
 //   createSelector(
 //     selectAllMaterials,
 //     materials => materials.filter(m => m.folderId === folderId)

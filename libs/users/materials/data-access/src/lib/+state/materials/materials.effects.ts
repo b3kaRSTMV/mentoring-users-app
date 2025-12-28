@@ -10,17 +10,24 @@ import { Material } from './material.model';
 export class MaterialsEffects {
   constructor(private actions$: Actions, private api: MaterialsApiService, private store: Store) {}
 
-  loadMaterials$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(MaterialsActions.loadMaterials),
-      switchMap(({ folderId }) =>
-        this.api.getMaterialsByFolder(folderId).pipe(
-          map((materials) => MaterialsActions.loadMaterialsSuccess({ materials })),
-          catchError((err) => of(MaterialsActions.loadMaterialsFailure({ error: err?.message ?? 'Error' })))
+  // Загрузка материалов
+loadMaterials$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(MaterialsActions.loadMaterials),
+    switchMap(({ folderId }) =>
+      this.api.getMaterialsByFolder(folderId).pipe(
+        // tap(data => console.log('Filtered materials from API:', data)), // можно убрать
+        map((materials: Material[]) =>
+          MaterialsActions.loadMaterialsSuccess({ materials })
+        ),
+        catchError((error) =>
+          of(MaterialsActions.loadMaterialsFailure({ error: error?.message ?? 'Error' }))
         )
       )
     )
-  );
+  )
+);
+
 
   createMaterial$ = createEffect(() =>
     this.actions$.pipe(
