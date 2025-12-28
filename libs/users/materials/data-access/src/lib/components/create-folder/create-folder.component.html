@@ -3,33 +3,33 @@
 <mat-dialog-content>
   <mat-form-field appearance="outline" class="w-full">
     <mat-label>Название папки</mat-label>
-    <input 
-      matInput 
-      [(ngModel)]="folderName" 
+    <input
+      matInput
+      [(ngModel)]="folderName"
       placeholder="Введите название"
       (keyup.enter)="createFolder()"
-    >
+    />
   </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button 
-    mat-button 
+  <button
+    mat-button
     mat-dialog-close
     (click)="cancel()"
   >
     Отмена
   </button>
-  
-  <button 
-    mat-raised-button 
+
+  <button
+    mat-raised-button
     color="primary"
-    [disabled]="!folderName.trim() || (loading$ | async)"
+    [disabled]="!(folderName?.trim()?.length) || (loading$ | async)"
     (click)="createFolder()"
   >
-    @if (loading$ | async) {
+    <ng-container *ngIf="loading$ | async">
       <mat-spinner diameter="20" class="mr-2"></mat-spinner>
-    }
+    </ng-container>
     Создать
   </button>
 </mat-dialog-actions>

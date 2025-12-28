@@ -40,4 +40,19 @@ export const foldersReducer = createReducer(
     error,
   })),
 
+
+    on(FoldersActions.createFolder, (state) => ({
+    ...state, loading: true, error: null
+  })),
+ on(FoldersActions.createFolderSuccess, (state, { folder }) => ({
+  ...state,
+  loading: false,
+  folders: [folder, ...state.folders.filter(f => f.id !== folder.id)]
+})),
+  on(FoldersActions.createFolderFailure, (state, { error }) => ({
+    ...state, loading: false, error
+  })),
 );
+
+
+

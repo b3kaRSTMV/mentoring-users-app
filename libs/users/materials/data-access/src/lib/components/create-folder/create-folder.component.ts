@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as FoldersActions from '../../+state/folders/folders.action';
 import { selectFoldersLoading } from '../../+state/folders/folders.selector';
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -17,8 +18,9 @@ import { selectFoldersLoading } from '../../+state/folders/folders.selector';
     MatDialogModule,
     MatButtonModule,
     MatInputModule,
-    FormsModule
-  ],
+    FormsModule,
+    MatProgressSpinnerModule
+],
   templateUrl: './create-folder.component.html',
   styleUrls: ['./create-folder.component.scss'],
 })
@@ -35,7 +37,6 @@ export class CreateFolderComponent {
         FoldersActions.createFolder({ title: this.folderName.trim() })
       );
       
-      // Закрываем диалог после успешного создания
       this.loading$.subscribe(loading => {
         if (!loading) {
           this.dialogRef.close();

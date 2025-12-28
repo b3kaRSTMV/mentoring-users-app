@@ -4,7 +4,6 @@ import { MaterialsState } from './materials.reducer';
 export const selectMaterialsState = 
   createFeatureSelector<MaterialsState>('materials');
 
-// Основные селекторы
 export const selectAllMaterials = createSelector(
   selectMaterialsState,
   (state) => state.materials
@@ -20,16 +19,8 @@ export const selectMaterialsError = createSelector(
   (state) => state.error
 );
 
-// Селекторы для конкретной папки
-export const selectMaterialsByFolderId = (folderId: number) => 
-  createSelector(
-    selectAllMaterials,
-    (materials) => materials.filter(m => m.folderId === folderId)
-  );
-
-// Селекторы по типу материала
-// export const selectMaterialsByType = (type: string) =>
+// export const selectMaterialsByFolderId = (folderId: number) => 
 //   createSelector(
 //     selectAllMaterials,
-//     (materials) => materials.filter(m => m.type === type)
+//     materials => materials.filter(m => m.folderId === folderId)
 //   );

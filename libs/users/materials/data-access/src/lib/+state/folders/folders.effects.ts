@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FoldersApiService } from './folders.api.service';
 import * as FoldersActions from './folders.action';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
 
 
 
@@ -16,6 +16,7 @@ export class FoldersEffect {
     ofType(FoldersActions.loadFolders),
     mergeMap(() => //ассинхронный запрос
       api.getFolders().pipe(
+        tap(console.log),
         map(folders => FoldersActions.loadFoldersSuccess({ folders})), // получаем массив данных folders и с помощью мапа преобразуем в экшн
         catchError(error => of(FoldersActions.loadFoldersFailure({ error: error.message })))
       )

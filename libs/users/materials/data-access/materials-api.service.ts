@@ -1,14 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Material } from './src/lib/+state/materials/material.model';
-export interface MaterialApi {
+interface MaterialApi {
   id: number;
   title: string;
-  material_linkk: string;
   folder_id: number;
-  createdAt?: string;
-  
+  material_link?: string;
+  material_linkk?: string;
+  url?: string;
+  type?: 'video'|'pdf'|'audio';
+  created_at?: number | string;
+}
+
+// Что шлём на создание (DTO для бэка)
+interface CreateMaterialDto {
+  folder_id: number;
+  title: string;
+  material_link: string; // если у тебя в Swagger material_linkk — переименуй здесь
+  type?: 'video'|'pdf'|'audio';
+}
+
+function apiToMaterial(m: MaterialApi): Material {
+  return {
+    id: m.id,
+    title: m.title,
+    url: m.material_link ?? m.material_linkk ?? m.url ?? '', // ← фолбэки
+    folderId: m.folder_id ?? m.folder_id,
+    createdAt: m.created_at ?? m.created_at ?? null,
+  };
 }
 
 @Injectable({ providedIn: 'root' })
@@ -17,19 +37,29 @@ export class MaterialsApiService {
 
   constructor(private http: HttpClient) {}
 
-getMaterialsByFolder(folderId: number): Observable<MaterialApi[]> {
-  return this.http.get<MaterialApi[]>(
-    `${this.apiUrl}/material?folder_id=${folderId}`
+
+getMaterialsByFolder(folderId: number): Observable<Material[]> {
+  return this.http
+    .get<any[]>(`${this.apiUrl}/material?folder_id=${folderId}`)
+    .pipe(
+      // если бэк всё равно возвращает все — подстрахуемся фильтром:
+      map(rows => rows.filter(r => (r.folder_id ?? r.folderId) === folderId)),
+      map(rows => rows.map(apiToMaterial))
+      
+    );
+}
+
+// 3) POST как уже починили, но используем тот же маппер
+createMaterial(folderId: number, materialData: Omit<Material, 'id'>): Observable<Material> {
+  const body = {
+    folder_id: folderId,
+    title: materialData.title,
+    material_link: materialData.url, // если в Swagger именно material_linkk — переименуй ключ тут
+  };
+  return this.http.post<any | any[]>(`${this.apiUrl}/material`, body).pipe(
+    map(r => Array.isArray(r) ? r[0] : r),
+    map(apiToMaterial)
   );
 }
-  createMaterial(folderId: number, materialData: Omit<Material, 'id'>): Observable<Material> {
-    return this.http.post<Material>(
-      `${this.apiUrl}/folder/${folderId}/materials`,
-      materialData
-    );
-  }
 
-  deleteMaterial(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/material/${id}`);
-  }
 }
